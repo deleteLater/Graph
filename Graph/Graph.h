@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <stack>
+#include <queue>
 #include <fstream>
 
 using namespace std;
@@ -103,6 +104,7 @@ public:
 				for (int i = 0; i < vertexNums; i++) {
 					if (visited[i] == false) {
 						curRoot = vertexes[i];
+						break;
 					}
 				}
 			}
@@ -110,7 +112,41 @@ public:
 		delete[] visited;
 	}
 	void DFSTraversal() {
-
+		queue<string> q;
+		bool* visited = new bool[vertexNums];
+		for (int i = 0; i < vertexNums; i++) {
+			visited[i] = false;
+		}
+		int count = 0;
+		string curRoot = root;
+		while (count < vertexNums) {
+			q.push(curRoot);
+			visited[locate(curRoot)] = true;
+			count++;
+			cout << curRoot << " ";
+			while (!q.empty()) {
+				int row = locate(q.front());
+				q.pop();
+				int col = 0;
+				for (; col < vertexNums; col++) {
+					if (AdjcencyMatrix[row][col] == '1' && !visited[col]) {
+						cout << vertexes[col] << " ";
+						visited[col] = true;
+						count++;
+						q.push(vertexes[col]);
+					}
+				}
+			}
+			if (count < vertexNums) {
+				for (int i = 0; i < vertexNums; i++) {
+					if (visited[i] == false) {
+						curRoot = vertexes[i];
+						break;
+					}
+				}
+			}
+		}
+		delete[] visited;
 	}
 	void setRoot(string root) {
 		this->root = root;
