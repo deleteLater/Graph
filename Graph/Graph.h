@@ -1,5 +1,5 @@
 #pragma once
-#define INFINITE '$'
+#define INFINITE '*'
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,6 +15,7 @@ public:
 		//init
 		this->vertexNums = nums;
 		this->vertexes = vertexes;
+		root = vertexes[0];
 		AdjcencyMatrix = new char*[vertexNums];
 		for (size_t i = 0; i < vertexNums; i++) {
 			AdjcencyMatrix[i] = new char[vertexNums];
@@ -37,7 +38,7 @@ public:
 		cout << endl;
 		for (int i = 0; i < nums; i++) {
 			string line;
-			int row = locate(nums,vertexes[i]);
+			int row = locate(vertexes[i]);
 			cout << "输入节点 " << vertexes[i] <<" 的邻接节点(节点间请用空格隔开):";
 			getline(cin,line);
 			cout << line <<endl;
@@ -46,7 +47,7 @@ public:
 			}
 			vector<string> strs = splitString(line,' ');
 			for (string vertex : strs) {
-				int col = locate(nums,vertex);
+				int col = locate(vertex);
 				AdjcencyMatrix[row][col] = '1';
 			}
 		}
@@ -56,9 +57,9 @@ public:
 	}
 	~AMGraph() {
 		for (int i = 0; i < vertexNums; i++) {
-			delete AdjcencyMatrix[i];
+			delete[] AdjcencyMatrix[i];
 		}
-		delete AdjcencyMatrix;
+		delete[] AdjcencyMatrix;
 	}
 	void printAM() {
 		for (int i = 0; i < vertexNums; i++) {
@@ -74,15 +75,45 @@ public:
 		for (int i = 0; i < vertexNums; i++) {
 			visited[i] = false;
 		}
-		s.push("V0");
-		while (!s.empty()) {
-
+		int count = 0;	//访问的节点个数
+		string curRoot = root;
+		while (count < vertexNums) {
+			cout << curRoot << " ";
+			s.push(curRoot);
+			visited[locate(curRoot)] = true;
+			count++;
+			while (!s.empty()) {
+				int row = locate(s.top());
+				int col = 0;
+				for (; col < vertexNums; col++) {
+					if (AdjcencyMatrix[row][col] == '1' && !visited[col]) {
+						cout << vertexes[col] << " ";
+						visited[col] = true;
+						count++;
+						s.push(vertexes[col]);
+						break;
+					}
+				}
+				if (col == vertexNums) {
+					s.pop();
+				}
+			}
+			//当栈为空时,可能存在某些还未访问过的节点
+			if (count < vertexNums) {
+				for (int i = 0; i < vertexNums; i++) {
+					if (visited[i] == false) {
+						curRoot = vertexes[i];
+					}
+				}
+			}
 		}
-
-		delete visited;
+		delete[] visited;
 	}
 	void DFSTraversal() {
 
+	}
+	void setRoot(string root) {
+		this->root = root;
 	}
 public:
 	size_t vertexNums;
@@ -90,6 +121,7 @@ public:
 private:
 	char **AdjcencyMatrix;
 	string* vertexes;
+	string root;
 	vector<string> splitString(string str, char delimiter) {
 		string tmp{};
 		vector<string> ret;
@@ -105,9 +137,9 @@ private:
 			ret.push_back(str.substr(start));
 		return ret;
 	}
-	int locate(int nums,string vertex) {
+	int locate(string vertex) {
 		int ret = -1;
-		for (int i = 0; i < nums; i++) {
+		for (int i = 0; i < vertexNums; i++) {
 			if (vertexes[++ret] == vertex)
 				return ret;
 		}
