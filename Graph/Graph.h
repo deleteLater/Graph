@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <stack>
+#include <fstream>
 
 using namespace std;
 
@@ -23,6 +25,10 @@ public:
 			}
 		}
 		//create
+		streambuf* default_in = cin.rdbuf();
+		ifstream in("data.txt");
+		cin.rdbuf(in.rdbuf());
+		
 		cout << "\t\t - - - 创建图 - - -\n";
 		cout << "结点:";
 		for (int i = 0; i < nums; i++) {
@@ -34,6 +40,7 @@ public:
 			int row = locate(nums,vertexes[i]);
 			cout << "输入节点 " << vertexes[i] <<" 的邻接节点(节点间请用空格隔开):";
 			getline(cin,line);
+			cout << line <<endl;
 			if (line == "null" || line.empty()) {
 				continue;
 			}
@@ -45,6 +52,7 @@ public:
 		}
 		cout << "邻接矩阵如下:\n";
 		printAM();
+		cin.rdbuf(default_in);
 	}
 	~AMGraph() {
 		for (int i = 0; i < vertexNums; i++) {
@@ -61,7 +69,17 @@ public:
 		}
 	}
 	void BFSTraversal() {
+		stack<string> s;
+		bool* visited = new bool[vertexNums];
+		for (int i = 0; i < vertexNums; i++) {
+			visited[i] = false;
+		}
+		s.push("V0");
+		while (!s.empty()) {
 
+		}
+
+		delete visited;
 	}
 	void DFSTraversal() {
 
