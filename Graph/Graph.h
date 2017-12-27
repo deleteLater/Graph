@@ -99,7 +99,7 @@ public:
 					s.pop();
 				}
 			}
-			//当栈为空时,可能存在某些还未访问过的节点
+			//当栈为空时,可能存在某些还未访问过的节点(比如非连通图)
 			if (count < vertexNums) {
 				for (int i = 0; i < vertexNums; i++) {
 					if (visited[i] == false) {
@@ -137,6 +137,7 @@ public:
 					}
 				}
 			}
+			//当队列为空时,可能还存在未被访问的节点(比如非连通图)
 			if (count < vertexNums) {
 				for (int i = 0; i < vertexNums; i++) {
 					if (visited[i] == false) {
