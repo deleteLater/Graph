@@ -55,6 +55,7 @@ public:
 		}
 		cout << "ÁÚ½Ó¾ØÕóÈçÏÂ:\n";
 		printAM();
+		in.close();
 		cin.rdbuf(default_in);
 	}
 	~AMGraph() {
@@ -241,6 +242,7 @@ public:
 				rear = rear->next;
 			}
 		}
+		in.close();
 		cin.rdbuf(default_in);
 	}
 	~ALGraph() {
