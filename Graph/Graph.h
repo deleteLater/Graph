@@ -74,6 +74,7 @@ public:
 			cout << endl;
 		}
 	}
+
 	/*
 		AM_DFS Pseudocode:
 			START
@@ -143,6 +144,12 @@ public:
 		}
 		delete[] visited;
 	}
+
+	/*
+		AM_BFS Pseudocode:
+			go throgh AdjcencyMatrix
+	*/
+
 	void BFSTraversal() {
 		queue<string> q;
 		bool* visited = new bool[vertexNums];
@@ -287,6 +294,12 @@ public:
 		vertexes = nullptr;
 		vertexNums = 0;
 	}
+
+	/*
+		AL_BFS Pseducode:
+			go through AdjcencyList(AL)
+	*/
+
 	void BFSTraversal() {
 		bool* visited = new bool[vertexNums];
 		edge_node* n(nullptr);
