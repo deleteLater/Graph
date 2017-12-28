@@ -74,6 +74,34 @@ public:
 			cout << endl;
 		}
 	}
+	/*
+		AM_DFS Pseudocode:
+			START
+			prepare a stack to store node: s,
+					a boolean array to mark one vertex has been visited: visited,
+					a counter to count how many vertexes have been visited: count,
+					a curRoot:inited to be root
+			while count < vertexNums   --> MainLoop
+				do visit curRoot
+				   s push curRoot
+				   mark it have been visited
+				   counter + 1
+				   while !s.empty
+						search s.top's first unvisited AdjacentVertex(FUAV)
+						if search success
+							then
+								visite curRoot's FUAV
+								mark FUAV have been visited
+								count + 1
+								s push FUAV
+							else
+								s.pop
+				  if count < vertexNums
+						curRoot = first unvisited vertex
+						goto MainLoop
+			END
+	*/
+
 	void DFSTraversal() {
 		stack<string> s;
 		bool* visited = new bool[vertexNums];
@@ -280,6 +308,30 @@ public:
 			}
 		}
 	}
+
+	/*
+		AL_DFS Pseudocode:
+		   START
+			prepare a boolean array make one vertex has been visited: visited
+					a edge_node pointer : n
+					a loopIndex : i
+			for i < vertexNums   --> MainLoop
+				if Vetex[i] hasn't been visited
+					then visit Vertex[i]
+						 mark it visited
+					else
+						 n = Vertex[i]'s first edge_node
+						 while n exsits
+							while n exists && !visited[n->adjvex_pos]
+								visit Vertex[n->adjcex_pos]
+								mark visited
+								n = Vertex[n->adjvex_pos]
+							if n exists
+								then n = n->next
+								goto MainLoop
+		  END					
+	*/
+
 	void DFSTraversal() {
 		bool* visited = new bool[vertexNums];
 		edge_node* n(nullptr);
